@@ -8,6 +8,9 @@ package p2.matricula.modelo;
  *
  * @author Boris Perez
  */
-class Estudiante {
+public class Estudiante {
+    // TODO: Agregar atributos
+    
+    // TODO: Agregar getters y setters
     
 }
