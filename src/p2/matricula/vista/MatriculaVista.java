@@ -4,12 +4,18 @@
  */
 package p2.matricula.vista;
 
+import javax.swing.DefaultListModel;
+
 /**
  *
  * @author Boris Perez
  */
 public class MatriculaVista extends javax.swing.JFrame {
 
+    
+    // ListModel para asociarle al JList de los cursos matriculados
+    private DefaultListModel<String> listModelCursosMatriculados;
+    
     /**
      * Creates new form MatriculaVista
      */
