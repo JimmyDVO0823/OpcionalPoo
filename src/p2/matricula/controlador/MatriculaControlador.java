@@ -17,8 +17,7 @@ public class MatriculaControlador {
 
     private MatriculaVista frame;
     private Universidad uni;
-    
-    
+
     public MatriculaControlador(MatriculaVista frame) {
         this.frame = frame;
         uni = new Universidad();
@@ -55,7 +54,7 @@ public class MatriculaControlador {
         String capacidad = frame.getTxtCapacidadRegCurso().getText();
 
         System.out.println("el programa elegido es" + programa);
-        if (!contieneElemento(frame.getListModelCursosMatriculados(),codigo)) {
+        if (!contieneElemento(frame.getListModelCursosMatriculados(), codigo)) {
             uni.agregarCurso(programa, nombre, codigo, promedio, codigo);
             frame.getListModelCursosMatriculados().addElement(codigo);
         }
@@ -76,16 +75,14 @@ public class MatriculaControlador {
 
     }
 
-    
     //DESMATRICULAR
-    
-    public void programaSeleccionado(){
+    public void programaSeleccionado() {
         String programa = frame.getCmbProgramaMatricula().getModel().getSelectedItem().toString();
         //System.out.println("programa seleccionado es:>>>>>" + programa);
         frame.getListModelCursosMatriculados().removeAllElements();
         frame.getListModelCursosMatriculados().addAll(uni.getCodigosCursosArray(programa));
     }
-    
+
     public void retirarCurso() {
         String curso = frame.getTxtCodigoCursoRegCurso().getText();
         frame.getListModelCursosMatriculados().removeElement(curso);
@@ -95,29 +92,39 @@ public class MatriculaControlador {
         //siempre que no haya estudiantes inscritos
         String programa = frame.getCmbProgramaAcad().getModel().getSelectedItem().toString();
         String codigo = frame.getTxtCodigoCurso().getText();
-        
-        boolean desactivar = uni.desactivarCurso(programa,codigo);
-        if(desactivar)frame.getListModelCursosMatriculados().removeElement(codigo);
+
+        boolean desactivar = uni.desactivarCurso(programa, codigo);
+        if (desactivar) {
+            frame.getListModelCursosMatriculados().removeElement(codigo);
+        }
 
     }
 
-    
-    
-    public void actualizarRequisitoPromedio() {
+    public void actualizarCurso() {
+        String codigo = frame.getTxtCodigoActualizarCurso().getText();
+        String requisito = frame.getTxtRequisitoActualizarCurso().getText();
+        String capacidad = frame.getTxtCapacidadActualizarCurso().getText();
 
-    }
+        System.out.println("codigo " + codigo);
+        System.out.println("requisito " + requisito);
+        System.out.println("capaciad " + capacidad);
 
-    public void actualizarCapacidad() {
-        //no se podrá realizar cuando haya estudiantes que no cumplan estos requisitos
+        String programa = frame.getCmbProgramasActualizar().getModel().getSelectedItem().toString();
 
+        if (requisito != null) {
+            uni.actualizarRequisito(requisito, codigo,programa);
+        }
+
+        if (capacidad != null) {
+            uni.actualizarCapacidad(capacidad, codigo,programa);
+        }
     }
 
     public void mostrarCursosMatriculados() {
         // Obtener atributos
-        
 
     }
-    
+
     public void matricular() {
         // Obtener atributos
         String codEst = frame.getCmbCodigoEstudianteMatricula().getModel().getSelectedItem().toString();
@@ -126,18 +133,30 @@ public class MatriculaControlador {
         //System.out.println("El programa es " + programa);
         String codCurso = frame.getCmbCodigoCursoMatricula().getModel().getSelectedItem().toString();
         //System.out.println("El codigo del curso es " + codCurso);
-        
+
         uni.matricular(codEst, programa, codCurso);
         frame.getTxtLista().setText("Cursos Relacionados");
         frame.getTxtCursos().setModel(frame.getListModelCursosMatriculados());
-        
+
+    }
+
+    public void cursoSeleccionadoAsignarNotas() {
+        String codCurso = frame.getCmbCursoAsignarNota().getModel().getSelectedItem().toString();
+        String programa = frame.getCmbProgramaAsignarNota().getModel().getSelectedItem().toString();
+        frame.getListModelEstudiantesCurso().removeAllElements();
+        frame.getListModelEstudiantesCurso().addAll(uni.buscarCurso(Integer.parseInt(codCurso), programa).getEstudiantesNombres());
     }
 
     public void registrarNotaEstudiante() {
+        String nota = frame.getTxtNota().getText();
+        String estudiante = frame.getCmbEstudianteAsignarNota().getModel().getSelectedItem().toString();
+        String curso = frame.getCmbCursoAsignarNota().getModel().getSelectedItem().toString();
+        String programa = frame.getCmbProgramaAsignarNota().getModel().getSelectedItem().toString();
 
+        uni.asignarNotaEstudiante(estudiante, curso, programa, nota);
     }
-    
-    public void verProgramas(){
+
+    public void verProgramas() {
         frame.getTxtCursos().setModel(frame.getListModelProgramas());
         frame.getTxtLista().setText("Programas Académicos");
     }
@@ -151,9 +170,9 @@ public class MatriculaControlador {
         }
         return false; // Elemento no existe en el modelo
     }
-    
-    public void actualizar(){
-        
+
+    public void actualizar() {
+
     }
 
 }

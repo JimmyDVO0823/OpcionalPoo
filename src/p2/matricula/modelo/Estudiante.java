@@ -35,6 +35,10 @@ public class Estudiante {
         System.out.println("Se pudo");
     }
 
+    public void aniadirNota(int curso, double nota){
+        cursosEstudiantes.asignarNota(curso, nota);
+    }
+    
     public String getCursosCodNom() {
         String cursos = "";
         cursos = cursosEstudiantes.getCursosCodigosNombres();
@@ -45,6 +49,7 @@ public class Estudiante {
     public void aniadirCurso(Curso curso){
         if (promedioAcumulado >= curso.getRequisitoPromedio()) {
         cursosEstudiantes.aniadirCurso(curso);
+        curso.getPromediosEstudiantes().add(promedioAcumulado);
         }
         else System.out.println("No se pudo por promedio");
     }

@@ -34,13 +34,31 @@ public class CursoEstudiante {
         return cursosString;
     }
     
+    public int getIndiceCurso(int  codigo){
+        int indice = -1;
+        for (int i = 0; i < cursos.size(); i++) {
+            if(cursos.get(i).codigo == codigo){
+                indice = i;
+            }
+        }
+        return indice;
+    }
+    
     public void aniadirCurso(Curso curso){
         if (cantidadCursos<LIMITE_CURSOS && curso.sePuedematricular()) {
         curso.confirmacionMatricula();
         cursos.add(curso);
         System.out.println("SE AÑADIO");
+        notas.add(0.0);
         }
         cantidadCursos++;
+    }
+    
+    public void asignarNota(int codigo, double nota){
+        int indice = 0;
+        indice = getIndiceCurso(codigo);
+        notas.set(indice, nota);
+        System.out.println("El curso es " + codigo + " y la nota es " + nota);
     }
     
     //GETTERS Y SETTERS
