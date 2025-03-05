@@ -25,15 +25,33 @@ public class ProgramaAcademico {
         modeloComboCursosPrograma = new DefaultComboBoxModel<>();
     }
 
+    public ProgramaAcademico() {
+    }
+    
+    
+
     //EQUALS
     //
     public void aniadirCurso(Curso curso) {
         //Curso curso = new Curso( programa,  nombre,  requisito,  codigo,  capacidad);
         System.out.println(curso);
         cursos.add(curso);
-        modeloComboCursosPrograma.addElement(curso.getNombre());
+        modeloComboCursosPrograma.addElement(curso.getCodigo() + "");
     }
 
+    @Override
+    public String toString() {
+        return  Ortografia.quitarTildes(nombre);
+    }
+
+    
+    public ArrayList<String> getCodigosCursos(){
+        ArrayList<String> nombresCursos = new ArrayList<>();
+        for (int i = 0; i < cursos.size(); i++) {
+            nombresCursos.add(cursos.get(i).getCodigo() + "");
+        }
+        return nombresCursos;
+    }
     // TODO: Agregar getters y setters
     public String getNombre() {
         return nombre;

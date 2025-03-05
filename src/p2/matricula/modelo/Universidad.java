@@ -5,6 +5,7 @@
 package p2.matricula.modelo;
 
 import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -14,11 +15,59 @@ public class Universidad {
 
     private ArrayList<ProgramaAcademico> programas;
     private ArrayList<Estudiante> estudiantes;
-    private ArrayList<Curso> cursos;
+    //private ArrayList<Curso> cursos;
 
     public Universidad() {
+        ProgramaAcademico p1 = new ProgramaAcademico("Ingenieria de Sistemas");
+        ProgramaAcademico p2 = new ProgramaAcademico("Contaduria");
+        ProgramaAcademico p3 = new ProgramaAcademico("Comunicacion Social");
         programas = new ArrayList<ProgramaAcademico>();
+        programas .add(p1);
+        programas .add(p2);
+        programas .add(p3);
         estudiantes = new ArrayList<Estudiante>();
+    }
+    
+    public ArrayList<String> getnombreProgramas(){
+        ArrayList<String> retorno = new ArrayList<>();
+        for (int i = 0; i < programas.size(); i++) {
+            retorno.add(programas.get(i).getNombre());
+        }
+        return retorno;
+    }
+    
+    public DefaultComboBoxModel<String> getCodigosCursos(String programa){
+        DefaultComboBoxModel<String>  cursos = new DefaultComboBoxModel<String>();
+        for (int i = 0; i < programas.size(); i++) {
+            if(programas.get(i).getNombre().equals(programa)){
+                cursos = programas.get(i).getModeloComboCursosPrograma();
+                break;
+            }
+        }
+        return cursos;
+    }
+    
+    public ArrayList<String> getCodigosCursosArray(String programa){
+        ArrayList<String> cursosPrograma = new ArrayList<>();
+        for (int i = 0; i < programas.size(); i++) {
+            if (programas.get(i).getNombre().equals(programa)) {
+                //System.out.println("EL PROGRAMA ES " + programas.get(i).getNombre());
+                cursosPrograma.addAll(programas.get(i).getCodigosCursos());
+            }
+        }
+        System.out.println(cursosPrograma);
+        return cursosPrograma;
+        
+    }
+    
+    public String encontrarEstudiante(int codigo){
+        String nombre = "";
+        for (int i = 0; i < estudiantes.size(); i++) {
+            if (estudiantes.get(i).getCodigo() == codigo) {
+                nombre = estudiantes.get(i).getNombres();
+            }
+        }
+        return nombre;
     }
 
     //*********************************************
@@ -39,8 +88,13 @@ public class Universidad {
         estudiantes.add(estudiante);
     }
     
-    public void desactivarEstudiante(){
-        
+    public void desactivarEstudiante(int codigo){
+        for (int i = 0; i < estudiantes.size(); i++) {
+            if(estudiantes.get(i).getCodigo() == codigo){
+                estudiantes.remove(i);
+                break;
+            }
+        }
     }
 
     /**
@@ -68,16 +122,20 @@ public class Universidad {
         curso = new Curso(nombre, codigo, RequisitoPrommedio, capacidad);
         //  c) Agregar el objeto a la lista
         programaAcademico.aniadirCurso(curso);
-        cursos.add(curso);
+        //cursos.add(curso);
     }
 
     /**
      * Metodo para matricular cursos. Se debe modificar la lista de parámetros
      * para incluir los atributos necesarios para cumplir el propósito.
      */
-    public void matricular() {
+    public void matricular(String estudianteCod, String programa, String curso) {
         // Obtener el objeto Estudiante, comparándolo con el código 
         // pasado como parámetro
+        int codigoEstudiante = Integer.parseInt(estudianteCod);
+        int codigoCurso = Integer.parseInt(curso);
+        
+        Estudiante estudiante = estudiantes.get(buscarEstudiante(codigoEstudiante));
 
         // Buscar el curso, usando el código, dentro de la lista de 
         // programas académicos.
@@ -98,5 +156,67 @@ public class Universidad {
         // Se retorna la nueva lista.
         return null;
     }
+
+    public int buscarCurso(int codigo, String programa){
+        int indice = -1;
+        ProgramaAcademico programaAcad = new ProgramaAcademico();
+        ArrayList<String> cursosDelPrograma = new ArrayList<>();
+        ArrayList<String> cursos = new ArrayList<>();
+        
+        programaAcad = getPrograma(programa);
+        
+        for (int i = 0; i < programaAcad.getCursos().size(); i++) {
+            if(programaAcad.getCursos().get(i).getCodigo() == codigo){
+                indice = i;
+            }
+        }
+        return indice;
+    }
+    
+    public int buscarEstudiante(int codigo){
+        int indice = -1;
+        for (int i = 0; i < estudiantes.size(); i++) {
+            if(estudiantes.get(i).getCodigo() == codigo){
+                indice = i;
+            }
+        }
+        return indice;
+    }
+    
+    public ProgramaAcademico getPrograma(String programa){
+        ProgramaAcademico programaAcad = new ProgramaAcademico();
+        for (int i = 0; i < programas.size(); i++) {
+            if (programas.get(i).getNombre().equals(programa)) {
+                programaAcad = programas.get(i);
+            }
+        }
+        return programaAcad;
+    }
+    
+    public ArrayList<ProgramaAcademico> getProgramas() {
+        return programas;
+    }
+
+    public void setProgramas(ArrayList<ProgramaAcademico> programas) {
+        this.programas = programas;
+    }
+
+    public ArrayList<Estudiante> getEstudiantes() {
+        return estudiantes;
+    }
+
+    public void setEstudiantes(ArrayList<Estudiante> estudiantes) {
+        this.estudiantes = estudiantes;
+    }
+
+   // public ArrayList<Curso> getCursos() {
+   //     return cursos;
+   // }
+
+   // public void setCursos(ArrayList<Curso> cursos) {
+    //    this.cursos = cursos;
+    //}
+    
+    
 
 }
