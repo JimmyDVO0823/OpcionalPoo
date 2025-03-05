@@ -38,6 +38,15 @@ public class ProgramaAcademico {
         cursos.add(curso);
         modeloComboCursosPrograma.addElement(curso.getCodigo() + "");
     }
+    
+    public void removerCurso(int codigo){
+        for (int i = 0; i < cursos.size(); i++) {
+            if (cursos.get(i).getCodigo() == codigo) {
+                cursos.remove(i);
+            }
+            
+        }
+    }
 
     @Override
     public String toString() {

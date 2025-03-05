@@ -14,6 +14,7 @@ public class Curso {
     double requisitoPromedio;
     int codigo;
     int capacidad;
+    int estudiantes;
 
     //CONSTRUCTOR
     public Curso(String nombre,  int codigo, double requisitoPromedio, int capacidad) {
@@ -31,6 +32,15 @@ public class Curso {
                 + codigo + "\nCapacidad: " + capacidad;
     }
 
+    public boolean sePuedematricular(){
+        boolean sePuede = capacidad > estudiantes;
+        return sePuede;
+    }
+    
+    public void confirmacionMatricula(){
+        estudiantes++;
+    }
+    
     //GETTERS SETTERS
     public String getNombre() {
         return nombre;
@@ -62,6 +72,14 @@ public class Curso {
 
     public void setCapacidad(int capacidad) {
         this.capacidad = capacidad;
+    }
+
+    public int getEstudiantes() {
+        return estudiantes;
+    }
+
+    public void setEstudiantes(int estudiantes) {
+        this.estudiantes = estudiantes;
     }
 
 }

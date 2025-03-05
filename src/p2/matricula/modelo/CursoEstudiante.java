@@ -12,20 +12,36 @@ import java.util.ArrayList;
  */
 public class CursoEstudiante {
     final int LIMITE_CURSOS = 5;
+    int cantidadCursos;
     int semestre;
     Estudiante estudiante;
     ArrayList<Curso> cursos;
     ArrayList<Double> notas;
 
-    public CursoEstudiante(Estudiante estudiante,int semestre) {
+    public CursoEstudiante(Estudiante estudiante) {
         this.estudiante = estudiante;
         this.semestre = semestre;
         cursos = new ArrayList(5);
         notas = new ArrayList(5);
+        
     }
     
+    public String getCursosCodigosNombres(){
+        String cursosString = "";
+        for (int i = 0; i < cursos.size(); i++) {
+            cursosString += "\n" + cursos.get(i).getNombre();
+        }
+        return cursosString;
+    }
     
-    
+    public void aniadirCurso(Curso curso){
+        if (cantidadCursos<LIMITE_CURSOS && curso.sePuedematricular()) {
+        curso.confirmacionMatricula();
+        cursos.add(curso);
+        System.out.println("SE AÑADIO");
+        }
+        cantidadCursos++;
+    }
     
     //GETTERS Y SETTERS
 
@@ -60,6 +76,8 @@ public class CursoEstudiante {
     public void setNotas(ArrayList<Double> notas) {
         this.notas = notas;
     }
+
+    
 
     
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * @author Boris Perez
  */
 public class Estudiante {
+
     // TODO: Agregar atributos
     private int codigo;
     private int semestre;
@@ -19,11 +20,10 @@ public class Estudiante {
     private String nombres;
     private String correo;
     private double promedioAcumulado;
-    ArrayList<Curso> cursos = new ArrayList<>();
-    
-    //Comportamientos
+    private CursoEstudiante cursosEstudiantes;
 
-    public Estudiante(String nombres, String correo, int codigo, long telefono, double promedioAcumulado,int semestre) {
+    //Comportamientos
+    public Estudiante(String nombres, String correo, int codigo, long telefono, double promedioAcumulado, int semestre) {
         limite = 5;
         this.codigo = codigo;
         this.telefono = telefono;
@@ -31,17 +31,30 @@ public class Estudiante {
         this.correo = correo;
         this.promedioAcumulado = promedioAcumulado;
         this.semestre = semestre;
+        cursosEstudiantes = new CursoEstudiante(this);
         System.out.println("Se pudo");
     }
+
+    public String getCursosCodNom() {
+        String cursos = "";
+        cursos = cursosEstudiantes.getCursosCodigosNombres();
+
+        return cursos;
+    }
     
-    
+    public void aniadirCurso(Curso curso){
+        if (promedioAcumulado >= curso.getRequisitoPromedio()) {
+        cursosEstudiantes.aniadirCurso(curso);
+        }
+        else System.out.println("No se pudo por promedio");
+    }
+
     @Override
     public String toString() {
         return codigo + "";
     }
-    
-    // TODO: Agregar getters y setters
 
+    // TODO: Agregar getters y setters
     public int getCodigo() {
         return codigo;
     }
@@ -90,12 +103,4 @@ public class Estudiante {
         this.promedioAcumulado = promedioAcumulado;
     }
 
-    public ArrayList<Curso> getCursos() {
-        return cursos;
-    }
-
-    public void setCursos(ArrayList<Curso> cursos) {
-        this.cursos = cursos;
-    }
-    
 }

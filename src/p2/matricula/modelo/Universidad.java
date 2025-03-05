@@ -38,6 +38,18 @@ public class Universidad {
         return retorno;
     }
     
+    public ProgramaAcademico getPrograma(String programa){
+        ProgramaAcademico programaRetorno = new ProgramaAcademico();
+        
+        for (int i = 0; i < programas.size(); i++) {
+            if (programas.get(i).getNombre().equals(programa)) {
+                programaRetorno = programas.get(i);
+            }
+        }
+        
+        return programaRetorno;
+    }
+    
     public DefaultComboBoxModel<String> getCodigosCursos(String programa){
         DefaultComboBoxModel<String>  cursos = new DefaultComboBoxModel<String>();
         for (int i = 0; i < programas.size(); i++) {
@@ -80,8 +92,8 @@ public class Universidad {
      * para incluir los atributos necesarios para crear el objeto Estudiante.
      */
     
-    public void crearCursoEstudiante(Estudiante estudiante, int semestre){
-        CursoEstudiante curEst = new CursoEstudiante(estudiante, semestre);
+    public void crearCursoEstudiante(Estudiante estudiante){
+        CursoEstudiante curEst = new CursoEstudiante(estudiante);
         cursoEstudiantes.add(curEst);
     }
     
@@ -106,6 +118,7 @@ public class Universidad {
 
         // Agregar a la lista
         estudiantes.add(estudiante);
+        
     }
     
     public void desactivarEstudiante(int codigo){
@@ -145,6 +158,18 @@ public class Universidad {
         //cursos.add(curso);
     }
 
+    public boolean desactivarCurso(String programa, String codigo){
+        boolean sePudo = false;
+        ProgramaAcademico programaAcad;
+        int codigoCurso = Integer.parseInt(codigo);
+        if (buscarCurso(codigoCurso, programa).estudiantes == 0) {
+            programaAcad = getPrograma(programa);
+            programaAcad.removerCurso(codigoCurso);
+            sePudo = true;
+        }
+        return sePudo;
+    }
+    
     /**
      * Metodo para matricular cursos. Se debe modificar la lista de parámetros
      * para incluir los atributos necesarios para cumplir el propósito.
@@ -152,10 +177,15 @@ public class Universidad {
     public void matricular(String estudianteCod, String programa, String curso) {
         // Obtener el objeto Estudiante, comparándolo con el código 
         // pasado como parámetro
+        
         int codigoEstudiante = Integer.parseInt(estudianteCod);
         int codigoCurso = Integer.parseInt(curso);
         
+        
+        ProgramaAcademico programaAcademico = getPrograma(programa);
         Estudiante estudiante = estudiantes.get(buscarEstudiante(codigoEstudiante));
+        
+        estudiante.aniadirCurso(buscarCurso(codigoCurso, programa));
 
         // Buscar el curso, usando el código, dentro de la lista de 
         // programas académicos.
@@ -167,8 +197,15 @@ public class Universidad {
      * parámetros para incluir los atributos necesarios para cumplir el
      * propósito.
      */
-    public ArrayList<String> listarCursosMatriculados() {
-
+    public String listarCursosMatriculados(String estudiante) {
+        String cursos = "";
+        int estudianteCodigo = Integer.parseInt(estudiante);
+        for (int i = 0; i < estudiantes.size(); i++) {
+            if (estudiantes.get(i).getCodigo() == estudianteCodigo) {
+                cursos = estudiantes.get(i).getCursosCodNom();
+            }
+            return cursos;
+        }
         // Se busca al estudiante
         // Se obtiene la lista de cursos
         // Se recorre la lista y se arma un String 
@@ -177,7 +214,7 @@ public class Universidad {
         return null;
     }
 
-    public int buscarCurso(int codigo, String programa){
+    public Curso buscarCurso(int codigo, String programa){
         int indice = -1;
         ProgramaAcademico programaAcad = new ProgramaAcademico();
         ArrayList<String> cursosDelPrograma = new ArrayList<>();
@@ -190,7 +227,7 @@ public class Universidad {
                 indice = i;
             }
         }
-        return indice;
+        return programaAcad.getCursos().get(indice);
     }
     
     public int buscarEstudiante(int codigo){
@@ -202,16 +239,6 @@ public class Universidad {
         }
         System.out.println("el estudiante está en la posicion " + indice);
         return indice;
-    }
-    
-    public ProgramaAcademico getPrograma(String programa){
-        ProgramaAcademico programaAcad = new ProgramaAcademico();
-        for (int i = 0; i < programas.size(); i++) {
-            if (programas.get(i).getNombre().equals(programa)) {
-                programaAcad = programas.get(i);
-            }
-        }
-        return programaAcad;
     }
     
     public ArrayList<ProgramaAcademico> getProgramas() {

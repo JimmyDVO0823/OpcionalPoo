@@ -48,8 +48,8 @@ public class MatriculaControlador {
     public void registrarCurso() {
         // Obtener atributos
         String programa = frame.getCmbProgramaAcad().getModel().getSelectedItem().toString();
-        System.out.println(programa);
         String codigo = frame.getTxtCodigoCurso().getText();
+        System.out.println(programa);
         String nombre = frame.getTxtNombreCurso().getText();
         String promedio = frame.getTxtRequisitoPromedioRegCurso().getText();
         String capacidad = frame.getTxtCapacidadRegCurso().getText();
@@ -71,8 +71,8 @@ public class MatriculaControlador {
 
     public void desactivarEstudiante() {
         //no se listarán al momento de inscribir cursos
-        //String estudiante = frame.getCmbEstudianteDesactivar().getModel().getSelectedItem().toString();
-        // System.out.println(estudiante + "");
+        String estudiante = frame.getTxtCodigoEstudiante().getText();
+        frame.getListModelEstudiantes().removeElement(estudiante);
 
     }
 
@@ -87,16 +87,22 @@ public class MatriculaControlador {
     }
     
     public void retirarCurso() {
-        
-        
+        String curso = frame.getTxtCodigoCursoRegCurso().getText();
+        frame.getListModelCursosMatriculados().removeElement(curso);
     }
 
-    public void desactivarCursos() {
+    public void desactivarCurso() {
         //siempre que no haya estudiantes inscritos
+        String programa = frame.getCmbProgramaAcad().getModel().getSelectedItem().toString();
+        String codigo = frame.getTxtCodigoCurso().getText();
         
+        boolean desactivar = uni.desactivarCurso(programa,codigo);
+        if(desactivar)frame.getListModelCursosMatriculados().removeElement(codigo);
 
     }
 
+    
+    
     public void actualizarRequisitoPromedio() {
 
     }
@@ -122,11 +128,18 @@ public class MatriculaControlador {
         //System.out.println("El codigo del curso es " + codCurso);
         
         uni.matricular(codEst, programa, codCurso);
+        frame.getTxtLista().setText("Cursos Relacionados");
+        frame.getTxtCursos().setModel(frame.getListModelCursosMatriculados());
         
     }
 
     public void registrarNotaEstudiante() {
 
+    }
+    
+    public void verProgramas(){
+        frame.getTxtCursos().setModel(frame.getListModelProgramas());
+        frame.getTxtLista().setText("Programas Académicos");
     }
 
     public boolean contieneElemento(DefaultComboBoxModel<String> modelo, String elemento) {
