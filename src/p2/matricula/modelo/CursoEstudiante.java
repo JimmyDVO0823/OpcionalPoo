@@ -11,28 +11,38 @@ import java.util.ArrayList;
  * @author LENOVO LOQ
  */
 public class CursoEstudiante {
-    ArrayList<Estudiante> estudiantes;
+    final int LIMITE_CURSOS = 5;
+    int semestre;
+    Estudiante estudiante;
     ArrayList<Curso> cursos;
     ArrayList<Double> notas;
-    ArrayList<Integer> semestres;
 
-    public CursoEstudiante() {
-        estudiantes = new ArrayList();
-        cursos = new ArrayList();
-        notas = new ArrayList();
-        semestres = new ArrayList();
+    public CursoEstudiante(Estudiante estudiante,int semestre) {
+        this.estudiante = estudiante;
+        this.semestre = semestre;
+        cursos = new ArrayList(5);
+        notas = new ArrayList(5);
     }
+    
     
     
     
     //GETTERS Y SETTERS
 
-    public ArrayList<Estudiante> getEstudiantes() {
-        return estudiantes;
+    public int getSemestre() {
+        return semestre;
     }
 
-    public void setEstudiantes(ArrayList<Estudiante> estudiantes) {
-        this.estudiantes = estudiantes;
+    public void setSemestre(int semestre) {
+        this.semestre = semestre;
+    }
+
+    public Estudiante getEstudiante() {
+        return estudiante;
+    }
+
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
     }
 
     public ArrayList<Curso> getCursos() {
@@ -51,13 +61,5 @@ public class CursoEstudiante {
         this.notas = notas;
     }
 
-    public ArrayList<Integer> getSemestres() {
-        return semestres;
-    }
-
-    public void setSemestres(ArrayList<Integer> semestres) {
-        this.semestres = semestres;
-    }
-    
     
 }

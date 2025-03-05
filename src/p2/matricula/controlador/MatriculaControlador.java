@@ -27,6 +27,8 @@ public class MatriculaControlador {
     }
 
     public void registrarEstudiante() {
+        String sem = frame.getTxtSemestreEstudiante().getText();
+        int semestre = Integer.parseInt(sem);
         String cod = frame.getTxtCodigoEstudiante().getText();
         int codigo = Integer.parseInt(cod);
         String nom = frame.getTxtNombreEstudiante().getText();
@@ -37,7 +39,7 @@ public class MatriculaControlador {
         double promDouble = Double.parseDouble(prom);
 
         if (!contieneElemento(frame.getListModelEstudiantes(), cod)) {
-            uni.registrarEstudiante(nom, cor, codigo, telefono, promDouble);
+            uni.registrarEstudiante(nom, cor, codigo, telefono, promDouble, semestre);
             frame.getListModelEstudiantes().addElement(cod);
         }
 
@@ -109,14 +111,17 @@ public class MatriculaControlador {
         
 
     }
-
+    
     public void matricular() {
         // Obtener atributos
-        String estudianteCodigo = frame.getCmbCodigoEstudianteMatricula().getModel().toString();
-        String programa = frame.getCmbProgramaMatricula().getModel().toString();
-        String cursoCodigo = frame.getCmbCodigoCursoMatricula().getModel().toString();
+        String codEst = frame.getCmbCodigoEstudianteMatricula().getModel().getSelectedItem().toString();
+        //System.out.println("EL CODIGO ES " + codEst);
+        String programa = frame.getCmbProgramaMatricula().getModel().getSelectedItem().toString();
+        //System.out.println("El programa es " + programa);
+        String codCurso = frame.getCmbCodigoCursoMatricula().getModel().getSelectedItem().toString();
+        //System.out.println("El codigo del curso es " + codCurso);
         
-        
+        uni.matricular(codEst, programa, codCurso);
         
     }
 

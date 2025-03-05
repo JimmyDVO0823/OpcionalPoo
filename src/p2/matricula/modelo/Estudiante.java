@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class Estudiante {
     // TODO: Agregar atributos
     private int codigo;
+    private int semestre;
     private long telefono;
     private int limite;
     private String nombres;
@@ -22,13 +23,14 @@ public class Estudiante {
     
     //Comportamientos
 
-    public Estudiante(String nombres, String correo, int codigo, long telefono, double promedioAcumulado) {
+    public Estudiante(String nombres, String correo, int codigo, long telefono, double promedioAcumulado,int semestre) {
         limite = 5;
         this.codigo = codigo;
         this.telefono = telefono;
         this.nombres = nombres;
         this.correo = correo;
         this.promedioAcumulado = promedioAcumulado;
+        this.semestre = semestre;
         System.out.println("Se pudo");
     }
     

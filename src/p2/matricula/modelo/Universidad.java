@@ -15,6 +15,7 @@ public class Universidad {
 
     private ArrayList<ProgramaAcademico> programas;
     private ArrayList<Estudiante> estudiantes;
+    private ArrayList<CursoEstudiante> cursoEstudiantes;
     //private ArrayList<Curso> cursos;
 
     public Universidad() {
@@ -26,6 +27,7 @@ public class Universidad {
         programas .add(p2);
         programas .add(p3);
         estudiantes = new ArrayList<Estudiante>();
+        cursoEstudiantes = new ArrayList<>();
     }
     
     public ArrayList<String> getnombreProgramas(){
@@ -73,16 +75,34 @@ public class Universidad {
     //*********************************************
     // IMPORTANTE: Pueden requerirse más métodos.
     //*********************************************
-    /**
+    /** ESTE APARTADO ES PARA CURSOESTUDIANTE
      * Metodo para agregar estudiante. Se debe modificar la lista de parámetros
      * para incluir los atributos necesarios para crear el objeto Estudiante.
      */
-    public void registrarEstudiante(String nombre, String correo, int codigo, long telefono, double promedio) {
+    
+    public void crearCursoEstudiante(Estudiante estudiante, int semestre){
+        CursoEstudiante curEst = new CursoEstudiante(estudiante, semestre);
+        cursoEstudiantes.add(curEst);
+    }
+    
+    public int encontrarCursoEstudiante(Estudiante estudiante){
+        int indice = -1;
+        for (int i = 0; i < cursoEstudiantes.size(); i++) {
+            if (cursoEstudiantes.get(i).getEstudiante().getCodigo() == estudiante.getCodigo()) {
+                indice = i;
+            }
+        }
+        return indice;
+    }
+    
+    
+    
+    public void registrarEstudiante(String nombre, String correo, int codigo, long telefono, double promedio, int semestre) {
         // Crear el objeto
         Estudiante estudiante;
 
         // Asignar atributos
-        estudiante = new Estudiante(nombre, correo, codigo, telefono, promedio);
+        estudiante = new Estudiante(nombre, correo, codigo, telefono, promedio, semestre);
 
         // Agregar a la lista
         estudiantes.add(estudiante);
@@ -180,6 +200,7 @@ public class Universidad {
                 indice = i;
             }
         }
+        System.out.println("el estudiante está en la posicion " + indice);
         return indice;
     }
     
